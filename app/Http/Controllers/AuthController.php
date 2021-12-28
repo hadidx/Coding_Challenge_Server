@@ -11,11 +11,11 @@ use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
-    protected $service;
+    protected $authService;
     protected $userDTO;
-    public function __construct(AuthService $service)
+    public function __construct(AuthService $authService)
     {
-        $this->service = $service;
+        $this->authService = $authService;
         //$this->middleware('auth:api', ['except' => ['login', 'registerUser']]);
     }
 
@@ -28,7 +28,7 @@ class AuthController extends Controller
         //$access_Token = $user->createToken('root')->accessToken;
         //return response()->json(['token'=>$access_Token],200);
         $data = $request->validated();
-        $this->service->CreateUser($data);
+        $this->authService->createUser($data);
         return response()->json(['message' => 'Customer Registered Successfully'], 200);
     }
 
@@ -36,15 +36,12 @@ class AuthController extends Controller
     {
         $loginCredentials = $request->validated();
 
-        if (auth()->attempt($loginCredentials)) {
-            $loginToken = auth()->user()->createToken('root')->accessToken;
-            return response()->json(['token' => $loginToken,'User' => auth()->user()], 200);
-        } else {
-            return response()->json(['error' => 'UnAuthorised Access'], 401);
-        }
+        $token = $this->authService->checkUser($loginCredentials);
+
+        return $token;
     }
 
-    public function User()
+    public function user()
     {
         return response()->json(['User' => auth()->user()], 200);
     }

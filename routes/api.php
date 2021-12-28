@@ -20,14 +20,14 @@ use App\Http\Controllers\AuthController;
 });*/
     Route::post('register', [AuthController::class, 'registerUser']);
 
-    Route::post('login', [AuthController::class, 'login']);
 
 
 
     Route::group(['middleware'=> ['auth:api']] , function()
     {
         //All the routes that belongs to the group goes here
-        Route::get('user', [AuthController::class, 'User']);
+        Route::post('login', [AuthController::class, 'login']);
+        Route::get('user', [AuthController::class, 'user']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
 

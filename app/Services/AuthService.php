@@ -7,24 +7,34 @@ use App\Repositories\AuthRepository;
 
 class AuthService
 {
-    protected $repo;
+    protected $authRepository;
 
-    public function __construct(AuthRepository $repo)
+    public function __construct(AuthRepository $authRepository)
     {
-        $this->repo = $repo;
+        $this->authRepository = $authRepository;
     }
 
-    public function CreateUser($userArray)
+    public function createUser($userArray)
     {
-        $user = $this->repo->CreateUser($userArray);
+        $user = $this->authRepository->createUser($userArray);
 
         return $user;
     }
 
-    public function CustomerList($filters)
+    /*public function CustomerList($filters)
     {
         $customerList = $this->repo->CustomerList($filters);
 
         return $customerList;
+    }*/
+
+    public function checkUser($loginCredentials)
+    {
+        if (auth()->attempt($loginCredentials)) {
+            $loginToken = auth()->user()->createToken('root')->accessToken;
+            return response()->json(['token' => $loginToken,'User' => auth()->user()], 200);
+        } else {
+            return response()->json(['error' => 'UnAuthorised Access'], 401);
+        }
     }
 }

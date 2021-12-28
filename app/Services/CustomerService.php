@@ -7,16 +7,16 @@ use App\Repositories\CustomerRepository;
 
 class CustomerService
 {
-    protected $repo;
+    protected $customerRepo;
 
-    public function __construct(CustomerRepository $repo)
+    public function __construct(CustomerRepository $customerRepo)
     {
-        $this->repo = $repo;
+        $this->customerRepo = $customerRepo;
     }
 
     public function get($filters,$recordsPerPage)
     {
-        $customerList = $this->repo->get($filters,$recordsPerPage);
+        $customerList = $this->customerRepo->get($filters,$recordsPerPage);
 
         return $customerList;
     }

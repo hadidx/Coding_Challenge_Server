@@ -9,10 +9,10 @@ use App\Http\Requests\CustomerRequest;
 
 class CustomerController extends Controller
 {
-    protected $service;
-    public function __construct(CustomerService $service)
+    protected $customerService;
+    public function __construct(CustomerService $customerService)
     {
-        $this->service = $service;
+        $this->customerService = $customerService;
         //$this->middleware('auth:api', ['except' => ['login', 'registerUser']]);
     }
 
@@ -25,7 +25,7 @@ class CustomerController extends Controller
         //if (auth()->check() && auth()->user()->role == 'admin')
         //{
             $filters = $request->validated();
-            $customerList = $this->service->get($filters,$records);
+            $customerList = $this->customerService->get($filters,$records);
             return response()->json($customerList, 200);
         //}
         //else {

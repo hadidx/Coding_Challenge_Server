@@ -14,17 +14,17 @@ class AuthRepository
         $this->user = $user;
     }
 
-    public function CreateUser($userArray)
+    public function createUser($userArray)
     {
         $user = User::create(['first_name' => $userArray['first_name'], 'last_name' => $userArray['last_name'], 'email' => $userArray['email'], 'password' => bcrypt($userArray['password'])]);
 
         return $user;
     }
 
-    public function CustomerList($filters)
+    /*public function customerList($filters)
     {
         $customerList = User::where('first_name', 'like', '%' . $filters['first_name'] . '%')->where('email', 'like', '%' . $filters['email'] . '%')->paginate($filters['records']);
 
         return $customerList;
-    }
+    }*/
 }
